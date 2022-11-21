@@ -11,7 +11,6 @@ namespace Generator
 
     class Program
     {
-        static string filepath = "C:\\Users\\Hendr\\Desktop\\passwords.dat";
         static void Main(string[] args)
         {          
             Run();
