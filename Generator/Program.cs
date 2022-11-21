@@ -48,6 +48,11 @@ namespace Generator
         }
         static void Run()
         {
+            if(!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+
             //first setup
             string fileString = File.ReadAllText(path);
             Configuration configuration = JsonSerializer.Deserialize<Configuration>(fileString);

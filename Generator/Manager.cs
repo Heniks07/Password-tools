@@ -10,7 +10,7 @@ namespace Generator
     internal class Manager
     {
         static SymmetricAlgorithm aes = Aes.Create();
-        private static string keyString = "vFuHlYO6OV70TtF+io1K9oBbpqHvJX3hXx7vNPZIqss=";
+        private static string keyString;
         private static bool keyset = false;
         static string filepath = "C:\\Users\\Hendr\\Desktop\\passwords.dat";
 
@@ -47,8 +47,6 @@ namespace Generator
 
         }
 
-        //vFuHlYO6OV70TtF+io1K9oBbpqHvJX3hXx7vNPZIqss=
-
 
         void input()
         {
@@ -75,6 +73,9 @@ namespace Generator
                         if (inputs != null)
                         {
                             addPasswordList(inputs[0], inputs[1], inputs[2]);
+                            Console.ForegroundColor= ConsoleColor.Green;
+                            Console.WriteLine("Succesfully added a password for {0}!", inputs[0]);
+                            Console.ForegroundColor = ConsoleColor.White;
                             break;
                         }
                         break;
@@ -210,11 +211,11 @@ namespace Generator
 
         List<string> getPasswordInput()
         {
-            Console.Write("Please inputStr the name of the website/app/etc.\n>");
+            Console.Write("Please input the name of the website/app/etc.\n>");
             string applicationName = Console.ReadLine();
-            Console.Write("Please inputStr your Username/Email address\n>");
+            Console.Write("Please input your Username/Email address\n>");
             string username = Console.ReadLine();
-            Console.Write("Please inputStr your password (don't have one? type in --gen to generate one)\n>");
+            Console.Write("Please input your password (don't have one? type in --gen to generate one)\n>");
             string password = Console.ReadLine();
 
             if (password == "--gen")
