@@ -158,8 +158,8 @@ namespace Generator
                         Console.WriteLine(
                             "______f______\n\n" +
                             " -i\tinformation about the file (third argument requiered)\n" +
-                            "\t-i -s\tfile size\n" +
-                            "\t-i -dir\tfile directory and name\n\n" +
+                            "\t-i s\tfile size\n" +
+                            "\t-i dir\tfile directory and name\n\n" +
                             " -path <drive>:\\<folder>\n\tsets the folder where the file schould be stored\n"
                             );
                         return 0;
@@ -197,13 +197,13 @@ namespace Generator
                             }
                             catch (FileNotFoundException)
                             {
-                                Console.WriteLine(doWriteToFile ? "file doesn't exist! Generate password to create file\n" : "file doesn't exist! Turn on write to file (wf) and generate a password to create file\n");
+                                Console.WriteLine(doWriteToFile ? "\nfile doesn't exist! Generate password to create file\n" : "\nfile doesn't exist! Turn on write to file (wf) and generate a password to create file\n");
                             }
                         }
                         if (inputArgs[2] == "dir")
                         {
 
-                            Console.WriteLine("File Path\\Name: " + filePath + "\n");
+                            Console.WriteLine("\nFile Path\\Name: " + filePath + "\n");
                         }
                         return 0;
                     }

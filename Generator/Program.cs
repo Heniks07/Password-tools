@@ -48,7 +48,8 @@ namespace Generator
                 Console.WriteLine("___Help___\n\n" +
                     " gen\tonly generate a password and don't store it\n" +
                     " manager\topens the password manager where you can generate and securely store passwords\t\n" +
-                    " clear\tclears the console\n");
+                    " clear\tclears the console\n" +
+                    " exit\tcloses the proram\n");
                 return;
             }
 
@@ -74,7 +75,7 @@ namespace Generator
             Console.Title = "Main menue";
             Console.Write("What do you want to do? (? for help)\n>");
             Input();
-            Run();
+            return;
         }
 
         public void returning()

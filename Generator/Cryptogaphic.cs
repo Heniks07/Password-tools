@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Generator
 {
@@ -11,6 +12,17 @@ namespace Generator
 
         AesCryptoServiceProvider aes;
         
+        public Cryptographic()
+        {
+            aes = new AesCryptoServiceProvider();
+
+            aes.BlockSize = 128;
+            aes.KeySize = 256;
+            aes.GenerateIV();
+            aes.GenerateKey();
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+        }
         public Cryptographic(byte[] Key)
         {
             aes = new AesCryptoServiceProvider();
@@ -59,6 +71,10 @@ namespace Generator
         public byte[] getIV()
         {
             return aes.IV;
+        }
+        public byte[] getKey()
+        {
+            return aes.Key;
         }
 
     }
