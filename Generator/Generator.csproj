@@ -24,4 +24,12 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Projects\Generator\Generator\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Projects\Generator\Generator\.editorconfig" />
+  </ItemGroup>
+
 </Project>

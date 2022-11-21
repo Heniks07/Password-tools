@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace Generator
 {
@@ -67,6 +68,7 @@ namespace Generator
                     "\nOther\n\n" +
                     " wf\tToggle write to file on/off (currently " + doWriteOn + " )\n" +
                     " exit\ttakes you back to the main menue\n" +
+                    " setDir\tchange the direction where your generated passwords will be stored\n" +
                     isDiagnostic
 
                     );
@@ -136,6 +138,40 @@ namespace Generator
             {
                 doWriteToFile = !doWriteToFile;
                 Console.WriteLine(doWriteToFile ? "toggled on write to file: now creates a file with your generated password at\n" + filePath + "\n" : "toggled off write to file: won't create anny files\n");
+                return 0;
+            }
+            if(Input == "setDir")
+            {
+                Configuration configuration = new Configuration();
+
+                string original = filePath;
+                Console.Write("Please input the path where your generated passwords should be stored\n>");
+
+                configuration = JsonSerializer.Deserialize<Configuration>(File.ReadAllText(@".\config.txt"));
+                string inputStr = Console.ReadLine();
+                configuration.Generator = inputStr + "\\pswds.txt";
+
+
+                filePath = inputStr;
+
+                if (!Directory.Exists(inputStr))
+                {
+                    Console.WriteLine("This isn't a valid Path!");
+                }
+                else
+                {
+                    if (File.Exists(original))
+                    {
+                        File.Delete(original);
+                        File.Create(configuration.Generator).Close();
+                    }
+                    else
+                    {
+                        File.Create(configuration.Generator);
+                    }
+
+                    File.WriteAllText(@".\config.txt", JsonSerializer.Serialize(configuration));
+                }
                 return 0;
             }
 
@@ -263,6 +299,11 @@ namespace Generator
 
         public void Run()
         {
+            Configuration configuration = new Configuration();
+            configuration = JsonSerializer.Deserialize<Configuration>(File.ReadAllText(@".\config.txt"));
+
+            filePath = configuration.Generator;
+
             Console.Title = "Password generator";
             Stopwatch sw = new Stopwatch();
 

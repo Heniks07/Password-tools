@@ -16,6 +16,11 @@ namespace Generator
 
         public void Run()
         {
+            Configuration configuration = new Configuration();
+            configuration = JsonSerializer.Deserialize<Configuration>(File.ReadAllText(@".\config.txt"));
+
+            filepath = configuration.Manager;
+
             Console.Title = "Password manager";
             if (!keyset)
             {
@@ -51,6 +56,19 @@ namespace Generator
 
             switch (Console.ReadLine())
             {
+                case "?":
+                    {
+                        Console.WriteLine("\n___HELP___\n" +
+                            " add\tadd a password\n" +
+                            " list\tshows a list of passwords\n" +
+                            " get\tget all information about one password\n" +
+                            " rm\tremove a password (not undoable!)\n" +
+                            " exit\tgo back to the main menue\n" +
+                            " clear\tclear the console\n" +
+                            " key\tshows you the key\n" +
+                            " setDir\tchange the direction where your database is\n");
+                        break;
+                    }
                 case "add":
                     {
                         List<string> inputs = getPasswordInput();
@@ -83,7 +101,7 @@ namespace Generator
                     {
                         List<Password> inputs = readPasswordList();
 
-                        Console.Write("inputStr name (website/app/etc.) of the password you want to get\n>");
+                        Console.Write("input name (website/app/etc.) of the password you want to get\n>");
 
                         string inputStr = Console.ReadLine();
 
@@ -141,19 +159,7 @@ namespace Generator
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         break;
-                    }
-                case "?":
-                    {
-                        Console.WriteLine("\n___HELP___\n" +
-                            " add\tadd a password\n" +
-                            " list\tshows a list of passwords\n" +
-                            " get\tget all information about one password\n" +
-                            " rm\tremove a password (not undoable!)\n" +
-                            " exit\tgo back to the main menue\n" +
-                            " clear\tclear the console\n" +
-                            " key\tshows you the key\n");
-                        break;
-                    }
+                    }  
                 case "clear":
                     {
                         Console.Clear();
@@ -162,6 +168,37 @@ namespace Generator
                 case "key":
                     {
                         Console.WriteLine("Your key is {0}", keyString);
+                        break;
+                    }
+                case "setDir":
+                    {
+                        Configuration configuration= new Configuration();
+
+                        string original = filepath;
+                        Console.Write("Please input the path where your generated passwords should be stored\n>");
+
+                        configuration = JsonSerializer.Deserialize<Configuration>(File.ReadAllText(@".\config.txt"));
+                        string inputStr = Console.ReadLine();
+                        configuration.Manager = inputStr + "\\passwords.dat";
+
+
+                        filepath= configuration.Manager;
+
+                        if (!Directory.Exists(inputStr))
+                        {
+                            Console.WriteLine("This is not a valid Path!");
+                            break;
+                        }
+                        else
+                        {
+                            File.WriteAllText(@".\config.txt", JsonSerializer.Serialize(configuration));
+                            File.Move(original, filepath);
+
+                            Console.ForegroundColor= ConsoleColor.Green;
+                            Console.WriteLine("Database Succesfully moved to {0} !", filepath);
+                            Console.ForegroundColor= ConsoleColor.White;
+                        }
+                        
                         break;
                     }
             }
