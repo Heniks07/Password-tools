@@ -64,7 +64,7 @@ namespace Generator
             // Return the encrypted bytes from the memory stream.
             return encrypted;
         }
-        public string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
+        public string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV) 
         {
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
@@ -96,9 +96,12 @@ namespace Generator
                         using (StreamReader srDecrypt = new StreamReader(csDecrypt))
                         {
 
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
+                            try { 
                             plaintext = srDecrypt.ReadToEnd();
+                            }catch(System.Security.Cryptography.CryptographicException ex)
+                            {
+                                return null;
+                            }
                         }
                     }
                 }

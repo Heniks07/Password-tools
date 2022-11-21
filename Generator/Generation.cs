@@ -13,21 +13,21 @@ namespace Generator
     
 
 
-        static string filePath = "C:\\Users\\Hendr\\Desktop\\pswds.txt";
+        string filePath = "C:\\Users\\Hendr\\Desktop\\pswds.txt";
         //random generator
-        private static RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+        private RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
         //clearing bools
-        static bool doClearC;
-        static bool doClearF;
+        bool doClearC;
+        bool doClearF;
         //diagnostics
-        static bool diagnostics;
-        static float elapsedMillisecondsToGenerate = 0;
+        bool diagnostics;
+        float elapsedMillisecondsToGenerate = 0;
 
-        static bool doWriteToFile = true;
+        bool doWriteToFile = true;
 
 
 
-        private static int input()
+        private int input()
         {
 
             Console.Write("password Lenght:\n>");
@@ -402,7 +402,7 @@ namespace Generator
             Run();
         }
 
-        private static void veryLongPassword(int length)
+        private void veryLongPassword(int length)
         {
 
             if (doClearF) File.WriteAllText(filePath, string.Empty);
@@ -474,7 +474,7 @@ namespace Generator
 
         }
 
-        public static string trueRandom(int size)
+        public string trueRandom(int size)
         {
             if (size <= 0) return "";
             Stopwatch sw = new Stopwatch();
