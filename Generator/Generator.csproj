@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon>bin\Debug\netcoreapp3.1\resources\sperren.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +27,10 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="D:\Projects\Generator\Generator\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\netcoreapp3.1\resources\sperren.ico" />
   </ItemGroup>
 
   <ItemGroup>

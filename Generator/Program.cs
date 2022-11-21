@@ -11,7 +11,7 @@ namespace Generator
         static void Main(string[] args)
         {        
             
-
+            
             Run();
             Console.WriteLine("Press anny butn to exit");
             Console.ReadKey();
@@ -51,6 +51,7 @@ namespace Generator
             if(!File.Exists(path))
             {
                 File.Create(path).Close();
+                File.WriteAllText(path, "{}");
             }
 
             //first setup
