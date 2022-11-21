@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
@@ -24,8 +23,8 @@ namespace Generator
                 key = Console.ReadLine();
                 if (key == "--gen")
                 {
-                    Cryptographic cryptographic = new Cryptographic();
-                    key = cryptographic.GenerateKey();
+                    Aes myAes = Aes.Create();
+                    key = Convert.ToBase64String(myAes.Key);
                     keyset = true;
                     Console.WriteLine("your key is\n\n");
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -39,36 +38,75 @@ namespace Generator
                 Console.WriteLine("Key set successfully!");
 
             }
-            run();
+            input();
 
         }
 
         //vFuHlYO6OV70TtF+io1K9oBbpqHvJX3hXx7vNPZIqss=
 
-        void run()
-        {
-
-            input();
-
-            List<Password> passwords = readPasswordList();
-            foreach (Password password in passwords)
-            {
-                Console.WriteLine("username : {0}\npassword : {1}\n", password.username, password.password);
-            }
-
-
-        }
 
         void input()
         {
-            Console.Write(">");
-            List<string> input = getPasswordInput();
-            if (input != null)
+            Console.Write("What do you want to do? (? for help)\n>");
+
+            switch (Console.ReadLine())
             {
-                addPasswordList(input[0], input[1], input[2]);
-                return;
+                case "add":
+                    {
+                        List<string> inputs = getPasswordInput();
+                        if (inputs != null)
+                        {
+                            addPasswordList(inputs[0], inputs[1], inputs[2]);
+                            input();
+                        }
+                        input();
+                        break;
+                    }
+                case "list":
+                    {
+                        List<Password> passwords = readPasswordList();
+
+                        if (passwords == null)
+                            Console.WriteLine("null");
+
+                        for (int i = 0; i < passwords.Count; i++)
+                        {
+                            Password password = passwords[i];
+                            Console.WriteLine("[{0}] {1}", i, password.applicationName);
+                        }
+                        input();
+                        break;
+                    }
+                case "exit":
+                    {
+                        return;
+                    }
+                case "get":
+                    {
+                        List<Password> inputs = readPasswordList();
+
+                        Console.Write("input name (website/app/etc.) of the password you want to get\n>");
+
+                        string input = Console.ReadLine();
+
+                        foreach (Password password in inputs)
+                        {
+                            if (password.applicationName == input)
+                            {
+                                Console.WriteLine("\n*********************\n" +
+                                    "application name: {0}\n" +
+                                    "username: {1}\n" +
+                                    "password: {2}\n" +
+                                    "*********************\n", password.applicationName, password.username, password.password);
+                            }
+                        }
+                        break;
+                    }
             }
-            return;
+
+
+
+            input();
         }
 
         List<string> getPasswordInput()
@@ -119,7 +157,6 @@ namespace Generator
 
         string readPassword(Password password)
         {
-            Cryptographic cryptographic = new Cryptographic();
             var options = new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
@@ -130,9 +167,9 @@ namespace Generator
             byte[] iv = password.IV;
             byte[] key = Convert.FromBase64String("vFuHlYO6OV70TtF+io1K9oBbpqHvJX3hXx7vNPZIqss=");
 
-            string cipher = password.password;
+            Cryptographic cryptographic = new Cryptographic(iv, key);
 
-            string plainText = cryptographic.DecryptStringFromBytes_Aes(Convert.FromBase64String(cipher), key, iv);
+            string plainText = cryptographic.Decrypt(password.password);
 
             List<string> output = new List<string>();
 
@@ -147,17 +184,19 @@ namespace Generator
                 WriteIndented = true
             };
 
-            Cryptographic cryptographic = new Cryptographic();
 
             byte[] key = Convert.FromBase64String("vFuHlYO6OV70TtF+io1K9oBbpqHvJX3hXx7vNPZIqss=");
-            byte[] iv = Convert.FromBase64String(cryptographic.GenerateIV());
 
-            string cipher = Convert.ToBase64String(cryptographic.EncryptStringToBytes_Aes(passwordInput, key, iv));
+            Cryptographic cryptographic = new Cryptographic(key);
+
+
+
+            string cipher = cryptographic.Encrypt(passwordInput);
 
 
             Password password = new Password()
             {
-                IV = iv,
+                IV = cryptographic.getIV(),
                 password = cipher,
                 username = username,
                 applicationName = applicationName,
@@ -198,12 +237,10 @@ namespace Generator
 
             File.WriteAllText(filepath, jsonString);
 
-
         }
 
         List<Password> readPasswordList()
         {
-            Cryptographic cryptographic = new Cryptographic();
             var options = new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
@@ -223,6 +260,7 @@ namespace Generator
             {
                 byte[] iv = password.IV;
                 byte[] key = Convert.FromBase64String("vFuHlYO6OV70TtF+io1K9oBbpqHvJX3hXx7vNPZIqss=");
+                Cryptographic cryptographic = new Cryptographic(iv, key);
                 string cipher = password.password;
 
                 if (cipher == null)
@@ -231,14 +269,15 @@ namespace Generator
                     Console.WriteLine("gg: {0}", password.username);
                 }
 
-                string plainText = cryptographic.DecryptStringFromBytes_Aes(Convert.FromBase64String(cipher), key, iv);
+                string plainText = cryptographic.Decrypt(cipher);
 
 
                 Password password1 = new Password()
                 {
                     IV = iv,
                     password = plainText,
-                    username = password.username
+                    username = password.username,
+                    applicationName = password.applicationName,
                 };
 
                 pswds.Add(password1);
@@ -255,6 +294,8 @@ namespace Generator
             public string username { get; set; }
             public string applicationName { get; set; }
         }
+
+
 
     }
 }
