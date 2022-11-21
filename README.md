@@ -1,4 +1,5 @@
 
+
 # Password-tool
 
 Password-tools is a Project that provides a password generator and a password manager
@@ -14,3 +15,7 @@ Password-tools is a Project that provides a password generator and a password ma
  2. The Password will be shown in the Console (if it has less than 250,000 characters) and will be written to a file (unless you turn that off by typing "wf" in the command line).
  3. The first time you start the application, you have to input the location where the generated passwords are stored (you could change it annytime by typing in f -dir 
  C:\\\<yourName>\\\<folde>
+ 
+ #resources
+ 1. The Icon is made by Ivan Abirawa. You could download it at [flaticon.com](https://www.flaticon.com/de/kostenloses-icon/sperren_3183023?related_id=3183023&origin=search#): 
+ 
