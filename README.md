@@ -17,5 +17,5 @@ Password-tools is a Project that provides a password generator and a password ma
  C:\\\<yourName>\\\<folde>
  
  #resources
- 1. The Icon is made by Ivan Abirawa. You could download it [here](https://www.flaticon.com/de/kostenloses-icon/sperren_3183023?related_id=3183023&origin=search#): 
+ 1. The Icon is made by Ivan Abirawa. You could download it at [flaticon.com](https://www.flaticon.com/de/kostenloses-icon/sperren_3183023?related_id=3183023&origin=search#): 
  
