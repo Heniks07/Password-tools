@@ -9,6 +9,7 @@ The manager uses the AES encryption to encrypt the password and then store it in
 
 #Generator
 The generator can generate you a password between 10 and 2.147.483.647 *(the program actually tells you 536870911 is the max because that's the longest password that could be generated at once and for real: who wants a password that is more than 500mb big?)* characters long. The Password will be shown in the Console (if it has less than 250,000 characters) and will be written to a file (unless you turn that off by typing "wf" in the command line). The first time you start the application, you have to input the location where the generated passwords are stored. Later you could change it by typing in setDir. To get a list of all commands, just type "?" in the command line.
+
 *Ther actually are two hidden commands: d and f. d stands for diagnostics just type in d and you are able to see a description of d and f in the help(?) menue.*
  
  #resources
