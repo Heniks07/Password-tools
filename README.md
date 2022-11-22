@@ -2,7 +2,7 @@
 
 # Password-tool
 
-Password-tools is a Project that provides a password generator and a password manager
+Password-tools is a Project that provides a password generator and a password manager.
 In the main menue type in "?" for help.
 
 # Manager
